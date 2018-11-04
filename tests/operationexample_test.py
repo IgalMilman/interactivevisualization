@@ -9,10 +9,10 @@ def run_test(data):
     assert oper1.parameter2 == data[1][1]
     assert oper1.parameter3 == data[1][2]
     assert oper1.process_data(None)
-    saved_parameters = json.dumps({'parameter1': data[1][0], 'parameter2': data[1][1], 'parameter3': data[1][2]})
+    saved_parameters = {'parameter1': data[1][0], 'parameter2': data[1][1], 'parameter3': data[1][2]}
     assert oper1.save_parameters() == saved_parameters
     oper2 = operationexample.OperationExample()
-    load_result = oper2.load_parameters(json.loads(data[2]))
+    load_result = oper2.load_parameters(data[2])
     assert load_result == data[3]
     if load_result:
         assert oper2.parameter1 == data[1][0]
@@ -21,13 +21,13 @@ def run_test(data):
 
 
 def run():
-    testset = [[[1, 2, 3], [1, 2, 3], '{"parameter1": 1, "parameter2": 2, "parameter3": 3}', True],
+    testset = [[[1, 2, 3], [1, 2, 3], {"parameter1": 1, "parameter2": 2, "parameter3": 3}, True],
                [[None, None, 1], [operationexample.DEFAULT_PARAMETER1, operationexample.DEFAULT_PARAMETER2, 1],
-                '{"parameter1": null, "parameter3": 1}', True],
+                {"parameter1": None, "parameter3": 1}, True],
                [[None, None, None], [operationexample.DEFAULT_PARAMETER1, operationexample.DEFAULT_PARAMETER2, None],
-                '{"parameter1": null, "parameter2": null, "parameter3": null}', False],
+                {"parameter1": None, "parameter2": None, "parameter3": None}, False],
                [[None, None, None], [operationexample.DEFAULT_PARAMETER1, operationexample.DEFAULT_PARAMETER2, None],
-                '{}', False]]
+                {}, False]]
 
     print("Performing test of OperationExample")
     for i in range(len(testset)):

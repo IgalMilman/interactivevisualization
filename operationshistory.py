@@ -28,7 +28,7 @@ class OperationHistory:
 
         for i in range(len(self.stack)):
             list_of_operations.append({OPERATION_NAME_STRING: self.stack[i].operation_name,
-                                       PARAMETERS_STRING: self.stack[i].save_parameters()})
+                                       PARAMETERS_STRING: json.dumps(self.stack[i].save_parameters())})
 
         return json.dumps(list_of_operations)
 

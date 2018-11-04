@@ -26,7 +26,7 @@ class BaseOperationClass:
         return True
 
     def save_parameters(self):
-        return "{}"
+        return {}
 
 
 def register(class_to_register):

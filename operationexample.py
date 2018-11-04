@@ -1,5 +1,4 @@
 import baseoperationclass
-import json
 
 DEFAULT_PARAMETER1 = 5
 DEFAULT_PARAMETER2 = 10
@@ -47,7 +46,7 @@ class OperationExample(baseoperationclass.BaseOperationClass):
         return True
 
     def save_parameters(self):
-        return json.dumps({'parameter1': self.parameter1, 'parameter2': self.parameter2, 'parameter3': self.parameter3})
+        return {'parameter1': self.parameter1, 'parameter2': self.parameter2, 'parameter3': self.parameter3}
 
 
 try:
