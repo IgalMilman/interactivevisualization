@@ -11,6 +11,7 @@ class OperationExample(baseoperationclass.BaseOperationClass):
         self.parameter1 = DEFAULT_PARAMETER1
         self.parameter2 = DEFAULT_PARAMETER2
         self.parameter3 = None
+        self.results = None
 
     def set_parameters(self, parameter1, parameter2, parameter3):
         if parameter1 is not None:

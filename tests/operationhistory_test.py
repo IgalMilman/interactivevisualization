@@ -15,13 +15,17 @@ def isclose(a, b, rel_tol=1e-04, abs_tol=0.0):
     return abs(a - b) <= max(rel_tol * max(abs(a), abs(b)), abs_tol)
 
 
-def check_basic_stats(operation, dataset, result):
-    calculation_result = operation.process_data(dataset)
-    for i in range(len(result)):
-        for j in range(len(result[i])):
-            if not isclose(result[i][j], calculation_result[i][j]):
+def check_arrays(arr1, arr2):
+    for i in range(len(arr1)):
+        for j in range(len(arr1[i])):
+            if not isclose(arr1[i][j], arr2[i][j]):
                 return False
     return True
+
+
+def check_basic_stats(operation, dataset, result):
+    calculation_result = operation.process_data(dataset)
+    return check_arrays(result, calculation_result)
 
 
 def check_operation_example(operation, dataset, result):
@@ -67,9 +71,10 @@ def run():
 
     print("Testing run previous operation:")
     for i in range(len(testset[DATASETS_STRING])):
-        assert testset[TESTOP_STRING][i][CHECKF_STRING](operations.get_previous_step(len(testset[DATASETS_STRING]) - i),
-                                                        testset[DATASETS_STRING][i],
-                                                        testset[TESTOP_STRING][i][RES_STRING])
+        assert testset[TESTOP_STRING][i][CHECKF_STRING](
+            operations.get_previous_step(len(testset[DATASETS_STRING]) - i)[0],
+            testset[DATASETS_STRING][i],
+            testset[TESTOP_STRING][i][RES_STRING])
     print("Passed")
 
     print("Testing save and load to JSON:")
@@ -79,7 +84,11 @@ def run():
 
     print("Testing loaded operations:")
     for i in range(len(testset[DATASETS_STRING])):
-        assert testset[TESTOP_STRING][i][CHECKF_STRING](op_new.get_previous_step(len(testset[DATASETS_STRING]) - i),
+        if (testset[TESTOP_STRING][i][RES_STRING] is not None) and \
+                (op_new.get_previous_step(len(testset[DATASETS_STRING]) - i)[0].results is not None):
+            assert check_arrays(op_new.get_previous_step(len(testset[DATASETS_STRING]) - i)[0].results,
+                                testset[TESTOP_STRING][i][RES_STRING])
+        assert testset[TESTOP_STRING][i][CHECKF_STRING](op_new.get_previous_step(len(testset[DATASETS_STRING]) - i)[0],
                                                         testset[DATASETS_STRING][i],
                                                         testset[TESTOP_STRING][i][RES_STRING])
     print("Passed")

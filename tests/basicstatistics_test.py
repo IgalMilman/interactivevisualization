@@ -9,10 +9,21 @@ def isclose(a, b, rel_tol=1e-04, abs_tol=0.0):
 def run_test(test):
     calc = basicstatistics.BasicStatistics()
     result = calc.process_data(test[0])
+    print("Testing calculations")
     for i in range(len(result)):
         for j in range(len(result[i])):
             if not isclose(result[i][j], test[1][i][j]):
-                return False
+                assert False
+    print("Testing saving results")
+    saved = calc.save_results()
+    calc = basicstatistics.BasicStatistics()
+    assert calc.load_results(saved)
+    result = calc.results
+    for i in range(len(result)):
+        for j in range(len(result[i])):
+            if not isclose(result[i][j], test[1][i][j]):
+                assert False
+
     return True
 
 

@@ -8,7 +8,7 @@ class BaseOperationClass:
     operation_name = property(_get_name)
 
     def __init__(self):
-        pass
+        self.results = None
 
     def save_to_queue(self, operation_queue, dataset):
         operation_queue.append(dataset, self)
@@ -18,15 +18,24 @@ class BaseOperationClass:
     def process_data(self, dataset):
         return None
 
+    def save_parameters(self):
+        return {}
+
     #Parameters is a collection of parameters
     def load_parameters(self, parameters):
         return True
 
-    def set_parameters(self):
+    def save_results(self):
+        return {'results': self.results}
+
+    #results_dict is a collection of all the results got from previous
+    def load_results(self, results_dict):
+        if 'results' in results_dict and results_dict['results'] is not None:
+            self.results = results_dict['results']
         return True
 
-    def save_parameters(self):
-        return {}
+    def set_parameters(self):
+        return True
 
 
 def register(class_to_register):

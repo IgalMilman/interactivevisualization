@@ -1,5 +1,4 @@
 import operationexample
-import json
 
 
 def run_test(data):
@@ -11,6 +10,8 @@ def run_test(data):
     assert oper1.process_data(None)
     saved_parameters = {'parameter1': data[1][0], 'parameter2': data[1][1], 'parameter3': data[1][2]}
     assert oper1.save_parameters() == saved_parameters
+    assert oper1.results is None
+    assert oper1.save_results() == {'results': None}
     oper2 = operationexample.OperationExample()
     load_result = oper2.load_parameters(data[2])
     assert load_result == data[3]
