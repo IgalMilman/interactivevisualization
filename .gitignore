@@ -10,3 +10,4 @@ out
 /core/settings/local.py
 /private/*
 core/datafiles/*
+~core/datafiles/.keep
